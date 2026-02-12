@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Investigation Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="dark-overlay" id="darkOverlay"></div>
+
+    <div class="floating-action" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-shield-alt me-2"></i>CrimeInvestigation Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#stats">Statistics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" class="user-avatar me-2" alt="User">
+                            User
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal"><i class="fas fa-user-plus me-2"></i>Register</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle me-2"></i>Help</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="floating-icon" style="top: 20%; left: 10%;"><i class="fas fa-search"></i></div>
+        <div class="floating-icon" style="top: 60%; left: 85%;"><i class="fas fa-fingerprint"></i></div>
+        <div class="floating-icon" style="top: 80%; left: 15%;"><i class="fas fa-camera"></i></div>
+        <div class="floating-icon" style="top: 40%; left: 90%;"><i class="fas fa-shield-alt"></i></div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 mx-auto">
+                    <div class="hero-badge">
+                        <i class="fas fa-bolt me-2"></i>Secure & Efficient Crime Reporting System
+                    </div>
+                    <h1 class="display-4 mb-4 fw-bold">Advanced Crime Investigation Portal</h1>
+                    <p class="lead mb-5">A comprehensive digital platform empowering citizens, law enforcement, and administrators with advanced tools for crime reporting, investigation management, and data-driven insights.</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="#" class="btn btn-primary btn-lg me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <i class="fas fa-sign-in-alt me-2"></i>Access Portal
+                        </a>
+                        <a href="#features" class="btn btn-outline-light btn-lg me-2">
+                            <i class="fas fa-play-circle me-2"></i>View Features
+                        </a>
+                        <a href="#" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#emergencyModal">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Emergency Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="login-container">
+                        <h3 class="text-center mb-4"><i class="fas fa-lock me-2"></i>Secure Portal Login</h3>
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label for="userType" class="form-label">User Role</label>
+                                <select class="form-select" id="userType" required>
+                                    <option value="">Select Your Role</option>
+                                    <option value="citizen">Citizen</option>
+                                    <option value="police">Police Officer</option>
+                                    <option value="admin">Administrator</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Login to Portal
+                                </button>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="#" class="text-muted" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal"><i class="fas fa-question-circle me-1"></i>Forgot Password?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">Advanced Portal Features</h2>
+            <p class="text-center mb-5">Discover the powerful features that make our Crime Investigation Portal the most effective solution for law enforcement and public safety</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center p-5">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h5 class="card-title">Multi-Level Authentication</h5>
+                            <p class="card-text">Secure role-based access control with two-factor authentication for citizens, police officers, and administrators.</p>
+                            <button class="btn btn-sm btn-outline-primary mt-3" data-feature="auth">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center p-5">
+                            <div class="feature-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h5 class="card-title">Digital Complaint & FIR System</h5>
+                            <p class="card-text">Streamlined complaint registration with automatic FIR generation and real-time status tracking with notifications.</p>
+                            <button class="btn btn-sm btn-outline-primary mt-3" data-feature="complaint">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center p-5">
+                            <div class="feature-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <h5 class="card-title">Intelligent Case Management</h5>
+                            <p class="card-text">Advanced case tracking with officer assignment, progress monitoring, and automated workflow management.</p>
+                            <button class="btn btn-sm btn-outline-primary mt-3" data-feature="case">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center p-5">
+                            <div class="feature-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <h5 class="card-title">Digital Evidence Management</h5>
+                            <p class="card-text">Secure upload, categorization, and retrieval of multimedia evidence with blockchain-based integrity verification.</p>
+                            <button class="btn btn-sm btn-outline-primary mt-3" data-feature="evidence">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center p-5">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h5 class="card-title">AI-Powered Crime Analytics</h5>
+                            <p class="card-text">Interactive dashboards with predictive analytics, crime pattern recognition, and AI-driven insights.</p>
+                            <button class="btn btn-sm btn-outline-primary mt-3" data-feature="analytics">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card">
+                        <div class="card-body text-center p-5">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h5 class="card-title">Secure Communication System</h5>
+                            <p class="card-text">Encrypted interdepartmental messaging with file sharing and real-time collaboration tools.</p>
+                            <button class="btn btn-sm btn-outline-primary mt-3" data-feature="communication">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div id="featureDetails">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats" class="stats-section">
+        <div class="container">
+            <h2 class="text-center section-title text-white">Real-Time Crime Statistics</h2>
+            <p class="text-center mb-5 text-white-50">Live data and insights from our nationwide crime reporting network</p>
+            
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number" id="stat1">0</div>
+                        <p>Complaints Registered</p>
+                        <i class="fas fa-file-signature fa-2x text-secondary mt-3"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number" id="stat2">0</div>
+                        <p>Cases Resolved</p>
+                        <i class="fas fa-check-circle fa-2x text-secondary mt-3"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number" id="stat3">0</div>
+                        <p>Active Police Officers</p>
+                        <i class="fas fa-user-shield fa-2x text-secondary mt-3"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number" id="stat4">0</div>
+                        <p>Evidence Files Processed</p>
+                        <i class="fas fa-camera fa-2x text-secondary mt-3"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-md-8 mx-auto">
+                    <div class="analytics-chart">
+                        <canvas id="crimeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crime Map Section -->
+    <!-- <section class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Live Crime Heat Map</h2>
+            <p class="text-center mb-5">Real-time visualization of crime hotspots and incident locations across the city</p>
+            
+            <div class="crime-map">
+                <div id="googleMap"></div>
+                
+                <div class="map-legend">
+                    <h6>Crime Type Legend</h6>
+                    <div class="legend-item">
+                        <div class="legend-color legend-theft"></div>
+                        <span>Theft</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-assault"></div>
+                        <span>Assault</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-burglary"></div>
+                        <span>Burglary</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-vandalism"></div>
+                        <span>Vandalism</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-8 mx-auto text-center">
+                    <p class="text-muted">Click on any crime marker to see details. The heat map updates in real-time as new incidents are reported.</p>
+                    <button class="btn btn-outline-primary" id="refreshMap">
+                        <i class="fas fa-sync-alt me-2"></i>Refresh Crime Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">About the Project</h2>
+            <p class="text-center mb-5">Learn about the technology, methodology, and team behind our advanced Crime Investigation Portal</p>
+            
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <h4><i class="fas fa-project-diagram me-2 text-primary"></i>SDLC Model: Waterfall</h4>
+                    <p>This project follows the structured Waterfall Model of Software Development Life Cycle with clearly defined phases:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Requirement Analysis</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>System Design</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Implementation</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Testing</li>
+                                <li class="mb-2"><i class="fas fa-sync-alt text-warning me-2"></i>Deployment</li>
+                                <li class="mb-2"><i class="fas fa-clock text-info me-2"></i>Maintenance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4><i class="fas fa-code me-2 text-primary"></i>Technology Stack</h4>
+                    <div class="row text-center">
+                        <div class="col-4 mb-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" class="tech-logo" alt="HTML5">
+                            <p class="small mt-2">HTML5</p>
+                        </div>
+                        <div class="col-4 mb-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" class="tech-logo" alt="CSS3">
+                            <p class="small mt-2">CSS3</p>
+                        </div>
+                        <div class="col-4 mb-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" class="tech-logo" alt="JavaScript">
+                            <p class="small mt-2">JavaScript</p>
+                        </div>
+                        <div class="col-4 mb-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg" class="tech-logo" alt="Bootstrap">
+                            <p class="small mt-2">Bootstrap</p>
+                        </div>
+                        <div class="col-4 mb-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg" class="tech-logo" alt="PHP">
+                            <p class="small mt-2">PHP</p>
+                        </div>
+                        <div class="col-4 mb-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/d/dd/MySQL_logo.svg" class="tech-logo" alt="MySQL">
+                            <p class="small mt-2">MySQL</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h4 class="text-center mb-4">Development Process</h4>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="process-step">
+                                <div class="step-number">1</div>
+                                <h5>Requirement Analysis</h5>
+                                <p>Comprehensive requirements gathering from stakeholders and detailed project scope definition</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="process-step">
+                                <div class="step-number">2</div>
+                                <h5>System Design</h5>
+                                <p>Creation of UML diagrams, database schema, system architecture, and user interface design</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="process-step">
+                                <div class="step-number">3</div>
+                                <h5>Implementation</h5>
+                                <p>Agile development using selected technologies with regular progress reviews and iterations</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="process-step">
+                                <div class="step-number">4</div>
+                                <h5>Testing & Deployment</h5>
+                                <p>Comprehensive testing including unit, integration, and security testing followed by deployment</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="guidance-section">
+                <div class="row align-items-center">
+                    <div class="col-md-4 text-center">
+                        <div class="guide-image-placeholder">
+                            <img src="mukta mam.png" alt="Mrs. Mukta Jamaje" class="img-fluid rounded-circle">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="guidance-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p class="guidance-text">"This project represents the culmination of dedicated effort and innovative thinking in applying software engineering principles to solve real-world challenges in law enforcement and public safety."</p>
+                        <p class="guidance-name">Mrs. Mukta Jamaje</p>
+                        <p class="guidance-role">Assistant Professor, SEML Lab Guide</p>
+                        <p class="guidance-role">Pimpri Chinchwad College of Engineering</p>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="team-section">
+                <h4 class="text-center section-title">Development Team</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="team-member">
+                            <div class="image-placeholder">
+                                <img src="self.jpg" alt="Aditya Deore" class="img-fluid rounded-circle">
+                            </div>
+                            <h5>Aditya Deore</h5>
+                            <p class="text-muted">Frontend Developer</p>
+                            <p class="small">Roll No: 123B1F019</p>
+                            <div class="d-flex justify-content-center">
+                                <a href="#" class="btn btn-sm btn-outline-primary me-2"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="team-member">
+                            <div class="image-placeholder">
+                                <img src="Pratik Chandane.jpg" alt="Pratik Chandane" class="img-fluid rounded-circle">
+                            </div>
+                            <h5>Pratik Chandane</h5>
+                            <p class="text-muted">Backend Developer</p>
+                            <p class="small">Roll No: 123B1F015</p>
+                            <div class="d-flex justify-content-center">
+                                <a href="#" class="btn btn-sm btn-outline-primary me-2"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="team-member">
+                            <div class="image-placeholder">
+                                <img src="ath.jpg" alt="Atharva Kumar" class="img-fluid rounded-circle">
+                            </div>
+                            <h5>Atharva Kumar</h5>
+                            <p class="text-muted">Database Architect</p>
+                            <p class="small">Roll No: 123B1F002</p>
+                            <div class="d-flex justify-content-center">
+                                <a href="#" class="btn btn-sm btn-outline-primary me-2"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="team-member">
+                            <div class="image-placeholder">
+                                <img src="suraj.jpg" alt="Suraj Bahirwade" class="img-fluid rounded-circle">
+                            </div>
+                            <h5>Suraj Bahirwade</h5>
+                            <p class="text-muted">UI/UX Designer</p>
+                            <p class="small">Roll No: 123B1F005</p>
+                            <div class="d-flex justify-content-center">
+                                <a href="#" class="btn btn-sm btn-outline-primary me-2"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="team-member">
+                            <div class="image-placeholder">
+                                <img src="ankita.jpg" alt="Ankita Barkhade" class="img-fluid rounded-circle">
+                            </div>
+                            <h5>Ankita Barkhade</h5>
+                            <p class="text-muted">UI/UX Designer</p>
+                            <p class="small">Roll No: 123B1F008</p>
+                            <div class="d-flex justify-content-center">
+                                <a href="#" class="btn btn-sm btn-outline-primary me-2"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="fas fa-shield-alt me-2"></i>Crime Investigation Portal</h5>
+                    <p>A comprehensive digital platform for efficient crime reporting, investigation management, and data-driven law enforcement.</p>
+                    <div class="d-flex mt-4">
+                        <a href="#" class="btn btn-outline-light btn-sm me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm me-2"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light"><i class="fas fa-chevron-right me-1"></i>Home</a></li>
+                        <li><a href="#features" class="text-light"><i class="fas fa-chevron-right me-1"></i>Features</a></li>
+                        <li><a href="#stats" class="text-light"><i class="fas fa-chevron-right me-1"></i>Statistics</a></li>
+                        <li><a href="#about" class="text-light"><i class="fas fa-chevron-right me-1"></i>About</a></li>
+                        <li><a href="#" class="text-light"><i class="fas fa-chevron-right me-1"></i>Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Police Headquarters, Nigdi Pune</p>
+                    <p><i class="fas fa-phone me-2"></i> +9112345 67890</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@crimeportal.gov</p>
+                    <p><i class="fas fa-clock me-2"></i> 24/7 Emergency Helpline</p>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="text-center">
+                <p>| Developed by Aditya Deore, Pratik Chandane, Atharva Kumar, Suraj Bahirwade, Ankita Barkhade</p>
+                <p class="small">Under the guidance of Mrs. Mukta Jamaje, Assistant Professor, PCCOE</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-lock me-2"></i>Secure Portal Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="modalLoginForm">
+                        <div class="mb-3">
+                            <label for="modalUserType" class="form-label">User Role</label>
+                            <select class="form-select" id="modalUserType" required>
+                                <option value="">Select Your Role</option>
+                                <option value="citizen">Citizen</option>
+                                <option value="police">Police Officer</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalUsername" class="form-label">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" class="form-control" id="modalUsername" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalPassword" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                <input type="password" class="form-control" id="modalPassword" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="modalRememberMe">
+                            <label class="form-check-label" for="modalRememberMe">Remember me</label>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-sign-in-alt me-2"></i>Login to Portal
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-key me-2"></i>Reset Your Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPasswordForm">
+                        <div class="mb-3">
+                            <label for="forgotEmail" class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control" id="forgotEmail" placeholder="Enter your registered email" required>
+                            </div>
+                            <div class="form-text">We will send a password reset link to your email.</div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Send Reset Link
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="emergencyModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Emergency Crime Report</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="emergency-alert">
+                        <i class="fas fa-info-circle me-2"></i><strong>Important:</strong> For immediate police response, call 100 or your local emergency number.
+                    </div>
+                    <form id="emergencyForm">
+                        <div class="mb-3">
+                            <label for="emergencyType" class="form-label">Emergency Type</label>
+                            <select class="form-select" id="emergencyType" required>
+                                <option value="">Select Emergency Type</option>
+                                <option value="assault">Assault in Progress</option>
+                                <option value="robbery">Robbery in Progress</option>
+                                <option value="burglary">Burglary in Progress</option>
+                                <option value="other">Other Emergency</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emergencyLocation" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="emergencyLocation" placeholder="Enter exact location" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emergencyDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="emergencyDescription" rows="3" placeholder="Describe the emergency situation" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emergencyContact" class="form-label">Your Contact Number</label>
+                            <input type="tel" class="form-control" id="emergencyContact" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-paper-plane me-2"></i>Submit Emergency Report
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="featureDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="featureModalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="featureModalBody">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
